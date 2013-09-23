@@ -1,0 +1,27 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/centos/templates/epel.erb
+############################################################################
+
+<% if has_variable?("lsbmajdistrelease") then %>
+[epel]
+name=Extra Packages for Enterprise Linux <%= lsbmajdistrelease %> - $basearch
+baseurl=http://ftp.swin.edu.au/epel/<%= lsbmajdistrelease %>/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+
+[epel-debuginfo]
+name=Extra Packages for Enterprise Linux <%= lsbmajdistrelease %> - $basearch - Debug
+baseurl=http://ftp.swin.edu.au/epel/<%= lsbmajdistrelease %>/$basearch/debug
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+gpgcheck=1
+
+[epel-source]
+name=Extra Packages for Enterprise Linux <%= lsbmajdistrelease %> - $basearch - Source
+baseurl=http://ftp.swin.edu.au/epel/<%= lsbmajdistrelease %>/SRPMS
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL
+gpgcheck=1
+<% end %>

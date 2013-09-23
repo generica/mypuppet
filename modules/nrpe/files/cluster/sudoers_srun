@@ -1,0 +1,5 @@
+Defaults:nrpe !requiretty
+Defaults:icinga !requiretty
+
+nrpe ALL=(ALL) NOPASSWD: /usr/local/vlsci/sbin/check_srun
+icinga ALL=(ALL) NOPASSWD: /usr/local/vlsci/sbin/check_srun

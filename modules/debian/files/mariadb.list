@@ -1,0 +1,10 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/mariadb.list
+############################################################################
+
+# MariaDB 5.5 repository list - created 2013-05-06 03:50 UTC
+# http://mariadb.org/mariadb/repositories/
+deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/debian wheezy main
+deb-src http://ftp.osuosl.org/pub/mariadb/repo/5.5/debian wheezy main
+

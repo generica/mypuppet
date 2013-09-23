@@ -1,0 +1,8 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/proxmox/files/proxmox2.list
+############################################################################
+
+# PVE packages provided by proxmox.com
+deb http://download.proxmox.com/debian squeeze pve
+

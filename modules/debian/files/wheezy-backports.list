@@ -1,0 +1,6 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/wheezy-backports.list
+############################################################################
+
+deb http://backports.debian.org/debian-backports wheezy-backports main

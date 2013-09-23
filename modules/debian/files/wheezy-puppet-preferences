@@ -1,0 +1,8 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/wheezy-puppet-preferences
+############################################################################
+
+Package: puppet*
+Pin: release o=Debian,n=squeeze
+Pin-Priority: 700

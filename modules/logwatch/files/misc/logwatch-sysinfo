@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# sysinfo : Print some system information
+# (c) 2011 Marcus Furlong <furlongm@vpac.org>
+# License: GPLv2
+
+PROG_NAME=sysinfo
+PROG_VER=0.4.5
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+function squeeze_packages {
+	squeeze=`echo ${packages_installed} | grep squeeze`
+	if [ "$squeeze" != "" ] ; then
+		echo
+		echo "Debian squeeze packages installed:"
+		echo $squeeze
+	fi
+}
+
+function upgradeable_packages {
+	ug=`echo ${packages_installed} | grep upgrade`
+	if [ "$ug" != "" ] ; then
+		echo
+		echo "Upgradeable packages:"
+		echo $ug
+	fi  
+}
+
+function downgradeable_packages {
+	dg=`echo ${packages_installed} | grep downgrade`
+	if [ "$dg" != "" ] ; then
+		echo
+		echo "Downgradeable packages:"
+		echo $dg
+	fi  
+}
+
+function non_purged_packages {
+	npp=`dpkg --list | grep "^rc" | awk {'print $2'}`
+	if [ "$npp" != "" ] ; then
+		echo
+		echo "Non-purged packages:"
+		echo $npp
+		echo
+	fi
+}
+
+function processes_needing_restart {
+	echo
+	checkrestart
+}
+
+HOSTNAME=`hostname`
+FQDN=`hostname -f`
+DISTRO=`head -n 1 /etc/issue | awk '{print $1 " " $2 " " $3}' | tr -d '\n'`
+UPTIME=`uptime | sed -e 's/.*up //' -e 's/,  load.*//'`
+KERNEL=`uname -r`
+TCPPORTS=`netstat -antp | grep LISTEN | awk '{printf "%s\t%+s\n", $7, $4}' | sed -e 's/[0-9]*\///' -e 's/\(.*\):\(.*\)/\1 \2/' | sort -n -k 3 | sed -e 's/ /:/' | awk '{printf "%-15s%21s\n", $1, $2}'`
+
+echo "$PROG_NAME version $PROG_VER"
+echo 
+echo -e "Hostname:\t$HOSTNAME"
+echo -e "FQDN:    \t$FQDN"
+echo -e "Distro:  \t$DISTRO"
+echo -e "Uptime:  \t$UPTIME"
+echo -e "Kernel:  \t$KERNEL"
+echo 
+echo "Programs listening on TCP ports:"
+echo "$TCPPORTS"
+echo $DISTRO | grep -q "Debian GNU/Linux 5.0" && (
+	IFS=""
+	packages_installed=`apt-show-versions`
+	squeeze_packages
+	upgradeable_packages
+	downgradeable_packages
+	non_purged_packages
+	processes_needing_restart
+) 

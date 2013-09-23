@@ -1,0 +1,35 @@
+#!/bin/sh
+
+pidfile=/var/run/puppet/puppetd.pid
+
+running()
+{
+        # No pidfile, probably no daemon present
+        if [ ! -f $pidfile ]; then
+                return 1
+        fi
+
+        pid=`cat $pidfile`
+        # No pid, probably no daemon present
+        if [ -z "$pid" ]; then
+            return 1
+        fi
+
+        if [ ! -d /proc/$pid ]; then
+                return 1
+        fi
+
+        cmd=`cat /proc/$pid/cmdline | tr "\000" "\n" | grep puppetd`
+
+    # No puppetd process found
+    if [ "$cmd" != "/usr/sbin/puppetd" ]; then
+                return 1
+        fi
+
+        return 0
+}
+
+if ! running; then
+        /etc/init.d/puppet restart
+fi
+

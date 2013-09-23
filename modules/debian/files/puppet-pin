@@ -1,0 +1,31 @@
+Package: puppet
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: puppet-common
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: augeas-lenses
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: libaugeas-ruby1.8
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: libaugeas0
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: vim-puppet
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: puppet-el
+Pin: release a=lenny-backports
+Pin-Priority: 1001
+
+Package: facter
+Pin: release a=lenny-backports
+Pin-Priority: 1001

@@ -1,0 +1,8 @@
+Defaults:nrpe !requiretty
+Defaults:icinga !requiretty
+
+nrpe ALL=(ALL) NOPASSWD: /opt/xcat/bin/rvitals
+icinga ALL=(ALL) NOPASSWD: /opt/xcat/bin/rvitals
+
+nrpe ALL=(ALL) NOPASSWD: /opt/xcat/bin/nodestat
+icinga ALL=(ALL) NOPASSWD: /opt/xcat/bin/nodestat

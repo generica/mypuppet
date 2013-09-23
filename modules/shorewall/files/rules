@@ -1,0 +1,5 @@
+
+Ping/ACCEPT             net                                             $FW
+
+SHELL cat /etc/shorewall/rules.d/*.rules
+

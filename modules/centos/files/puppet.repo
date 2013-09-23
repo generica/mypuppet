@@ -1,0 +1,11 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/centos/files/puppet.repo
+############################################################################
+
+[epel-puppet]
+name=epel-puppet
+baseurl=http://tmz.fedorapeople.org/repo/puppet/epel/5/$basearch/
+enabled=1
+gpgcheck=0
+

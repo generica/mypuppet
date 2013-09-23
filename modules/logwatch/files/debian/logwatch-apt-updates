@@ -1,0 +1,52 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $apt_get = '/usr/bin/apt-get';
+my ($pkg, $from, $to);
+
+system("$apt_get -q update > /dev/null");
+system("$apt_get -q autoclean >/dev/null");
+
+# apt-get output is going to look like this:
+#
+# Reading Package Lists...
+# Building Dependency Tree...
+# The following packages will be upgraded:
+#   libconfigfile-perl libglib2.0-0 nagios-common nagios-text
+# 4 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+# Inst libconfigfile-perl [1.1.1] (1.2.1 Debian:testing)
+# Inst libglib2.0-0 [2.6.3-1] (2.6.4-1 Debian:testing)
+# Inst nagios-text [2:1.3-cvs.20050116-4] (2:1.3-cvs.20050402-1 Debian:testing) []
+# Inst nagios-common [2:1.3-cvs.20050116-4] (2:1.3-cvs.20050402-1 Debian:testing)
+# Conf libconfigfile-perl (1.2.1 Debian:testing)
+# Conf libglib2.0-0 (2.6.4-1 Debian:testing)
+# Conf nagios-common (2:1.3-cvs.20050402-1 Debian:testing)
+# Conf nagios-text (2:1.3-cvs.20050402-1 Debian:testing)
+
+open(P, "$apt_get -q -s upgrade |") or die "Couldn't pipe from $apt_get: $!";
+
+format STDOUT_TOP =
+                       Package Upgrades Available
+Package                         Installed             Available
+----------------------------------------------------------------------------
+.
+
+format STDOUT =
+@<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<
+$pkg,                           $from,                $to
+.
+
+while (<P>) {
+	if (/(\d+)\s+upgraded,\s+(\d+)\s+newly\s+installed/) {
+		last if ($1 == 0 and $2 == 0);
+		next;
+	}
+	
+	if (/^Inst\s+(\S+)\s+\[(\S+)\]\s+\((\S+)/) {
+		$pkg = $1;
+		$from = $2;
+		$to = $3;
+		write;
+	}
+}

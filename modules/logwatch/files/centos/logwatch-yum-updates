@@ -1,0 +1,3 @@
+#!/bin/bash
+yum check-update -q 2>&1 | sort | grep -v '^$'
+

@@ -1,0 +1,7 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/fosiki.list
+############################################################################
+
+deb http://fosiki.com/Foswiki_debian/ stable main contrib
+deb-src http://fosiki.com/Foswiki_debian/ stable main contrib

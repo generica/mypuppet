@@ -1,0 +1,16 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/lenny.list
+############################################################################
+
+# Main 
+deb http://archive.debian.org/debian lenny main non-free contrib
+deb-src http://archive.debian.org/debian lenny main non-free contrib
+
+# Backports
+deb http://archive.debian.org/debian-backports lenny-backports main
+deb-src http://archive.debian.org/debian-backports lenny-backports main
+
+# Sloppy Backports
+deb http://archive.debian.org/debian-backports lenny-backports-sloppy main
+deb-src http://archive.debian.org/debian-backports lenny-backports-sloppy main

@@ -1,0 +1,9 @@
+# Accept XMPP
+ACCEPT          all             $FW                     tcp             5222,5223
+
+# Accept eJabberd S2S
+ACCEPT          all             $FW                     tcp             5269
+
+# Accept eJabberd web interface
+ACCEPT          all             $FW                     tcp             5280
+

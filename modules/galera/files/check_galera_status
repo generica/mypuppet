@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+
+'''
+
+Check galera status
+
+'''
+
+import os
+import sys
+import _mysql
+from optparse import OptionParser
+
+OK = 0
+WARNING = 1
+CRITICAL = 2
+UNKNOWN = 3
+
+
+if __name__ == "__main__":
+
+    use = " %prog <-u username> <-p password> [ option ]."
+    parser = OptionParser(usage=use)
+    parser.add_option('-H', '--host', help='Mysql hostname', dest="host", action="store")
+    parser.add_option('-n', '--nodes', help='Number of expected nodes', dest="nodes", action="store")
+    parser.add_option('-p', '--password', help='Password', dest="password", action="store")
+    parser.add_option('-P', '--port', help='Port to connect to (default=3306)', dest="port", action="store")
+    parser.add_option('-u', '--user', help='Username', dest="user", action="store")
+
+    options, args = parser.parse_args()
+
+    user = options.user if options.user else 'check_db'
+    nodes = options.nodes if options.nodes else '3'
+    host = options.host if options.host else 'localhost'
+    port = options.port if options.port else '3306'
+    password = options.password if options.password else 'check_db'
+
+    try:
+        DB = _mysql.connect(host=host, user=user, passwd=password)
+    except _mysql.Error, e:
+        print "Error %d: %s" % (e.args[0], e.args[1])
+        sys.exit(1)
+
+    DB.query("SHOW GLOBAL STATUS WHERE variable_name in ('wsrep_cluster_size', 'wsrep_cluster_status')")
+    Result = DB.store_result()
+
+    status = {}
+
+    for Line in range(Result.num_rows()):
+        (var, value) = Result.fetch_row()[0]
+        status[var] = value
+
+    if status['wsrep_cluster_status'] == 'Primary':
+        if status['wsrep_cluster_size'] == nodes:
+            print "OK wsrep_cluster_size: %s, wsrep_cluster_status: %s" % (status['wsrep_cluster_size'], status['wsrep_cluster_status'])
+            sys.exit(OK)
+        else:
+            print "WARNING wsrep_cluster_size: %s, wsrep_cluster_status: %s" % (status['wsrep_cluster_size'], status['wsrep_cluster_status'])
+            sys.exit(WARNING)
+    else:
+        print "CRITICAL wsrep_cluster_size: %s, wsrep_cluster_status: %s" % (status['wsrep_cluster_size'], status['wsrep_cluster_status'])
+        sys.exit(CRITICAL)
+

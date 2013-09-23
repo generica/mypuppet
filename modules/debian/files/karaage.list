@@ -1,0 +1,7 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/karaage.list
+############################################################################
+
+deb http://code.vpac.org/debian lenny main
+deb http://code.vpac.org/debian squeeze main

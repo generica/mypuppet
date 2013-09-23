@@ -1,0 +1,7 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/nrpe/files/mysql/sudoers
+############################################################################
+
+nagios ALL=(ALL) NOPASSWD: /usr/local/lib/nagios/plugins/check_mysql_connections
+Defaults:nagios !requiretty

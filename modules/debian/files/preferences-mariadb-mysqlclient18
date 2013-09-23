@@ -1,0 +1,12 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/preferences-mariadb-mysqlclient18
+############################################################################
+
+Package: libmysqlclient18
+Pin: origin ftp.osuosl.org
+Pin-Priority: 1000
+
+Package: mysql-common
+Pin: origin ftp.osuosl.org
+Pin-Priority: 1000

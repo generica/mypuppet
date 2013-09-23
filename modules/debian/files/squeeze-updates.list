@@ -1,0 +1,6 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/squeeze-updates.list
+############################################################################
+
+deb http://mirror.aarnet.edu.au/pub/debian squeeze-updates main contrib

@@ -1,0 +1,6 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/nrpe/files/sas2ircu/sudoers
+############################################################################
+
+nagios ALL=(ALL) NOPASSWD: /usr/local/lib/nagios/plugins/check_sas2ircu

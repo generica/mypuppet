@@ -1,0 +1,9 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/debian/files/wheezy.list
+############################################################################
+
+deb http://mirror.aarnet.edu.au/pub/debian wheezy main contrib non-free
+deb http://mirror.aarnet.edu.au/pub/debian wheezy-updates main contrib non-free
+
+deb http://security.debian.org wheezy/updates main contrib non-free

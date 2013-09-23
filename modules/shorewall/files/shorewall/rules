@@ -1,0 +1,53 @@
+#
+# Shorewall version 4.0 - Sample Rules File for one-interface configuration.
+# Copyright (C) 2006 by the Shorewall Team
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# See the file README.txt for further details.
+#------------------------------------------------------------------------------------------------------------
+# For information on entries in this file, type "man shorewall-rules"
+#
+# The manpage is also online at 
+# http://shorewall.net/manpages/shorewall-rules.html
+#
+#############################################################################################################
+#ACTION			SOURCE			DEST		PROTO	DEST	SOURCE		ORIGINAL	RATE		USER/	MARK
+#											PORT	PORT(S)		DEST		LIMIT		GROUP
+
+# Web
+ACCEPT			net						$FW			tcp		80,443
+
+
+# Panda servers
+ACCEPT			net:131.215.116.152		$FW			udp
+ACCEPT			net:202.158.214.15		$FW			udp
+ACCEPT			net:130.194.245.4		$FW			udp
+ACCEPT			net:202.158.196.21		$FW			udp
+ACCEPT			net:202.158.195.212		$FW			udp
+ACCEPT			net:202.158.195.72		$FW			udp
+ACCEPT			net:202.158.195.12		$FW			udp
+
+# Accept Mail
+SMTP/ACCEPT		net						$FW	
+
+# Accept SSH
+Ping/ACCEPT		net						$FW
+
+# Accept SSH
+SSH/ACCEPT		net:137.138.0.0/16		$FW
+SSH/ACCEPT		net:131.215.0.0/16		$FW
+
+# Accept some stuff
+ACCEPT			net						$FW			udp		5060
+
+# Accept something else
+ACCEPT			net						$FW			tcp		3246,3247
+
+ACCEPT			net:203.206.181.167				$FW			tcp		5353,5354
+
+
+#LAST LINE -- ADD YOUR ENTRIES BEFORE THIS ONE -- DO NOT REMOVE

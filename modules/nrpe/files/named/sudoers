@@ -1,0 +1,7 @@
+########### ******* Puppet Managed File ******* ###########
+### This file is managed by puppet, any changes should be made on puppet
+### /etc/puppet/modules/nrpe/files/named/sudoers
+############################################################################
+
+nagios ALL=(ALL) NOPASSWD: /usr/sbin/rndc stats
+nrpe ALL=(ALL) NOPASSWD: /usr/sbin/rndc stats

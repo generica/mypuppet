@@ -1,0 +1,16 @@
+#!/bin/bash
+
+count=$(ip addr sh bond0 | grep -wc inet)
+
+if [ $count -eq 2 ]
+then
+        echo "I am currently the GLB master"
+        exit 0
+elif [ $count -eq 1 ]
+then
+        echo "I am currently NOT the GLB master"
+        exit 1
+else
+        echo "UNDEFINED"
+        exit 2
+fi
