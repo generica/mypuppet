@@ -87,6 +87,7 @@ class puppet::cron {
   }
 
   service { "puppet":
+    status     => "service puppet status",
     ensure     => stopped,
     enable     => false,
     hasrestart => true,
