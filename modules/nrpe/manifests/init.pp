@@ -120,6 +120,12 @@ class nrpe {
 # CentOS NRPE Settings
 class nrpe::centos {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   package { ["nagios-plugins-disk", "nagios-plugins-load", "nagios-plugins-users", "nagios-plugins-procs", "nagios-plugins-perl", "nagios-plugins-file_age"]:
     ensure => installed,
   }
@@ -153,7 +159,7 @@ class nrpe::centos {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_yum.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_puppet.cfg":
@@ -161,7 +167,7 @@ class nrpe::centos {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_puppet_centos_${hardwaremodel}.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
       
   # Arch file
@@ -170,7 +176,7 @@ class nrpe::centos {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_mem.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_cpu.cfg":
@@ -178,7 +184,7 @@ class nrpe::centos {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cpu/check_cpu.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   service { "nrpe":
@@ -193,6 +199,12 @@ class nrpe::centos {
 # Debian NRPE Settings
 class nrpe::debian {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   # Packages
   package { "nagios-plugins-basic":
     ensure => installed,
@@ -204,7 +216,7 @@ class nrpe::debian {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_apt_${hardwaremodel}.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
 
   }
   file { "/etc/nagios/conf.d/nrpe_check_puppet.cfg":
@@ -212,7 +224,7 @@ class nrpe::debian {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_puppet_debian_${hardwaremodel}.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   # Arch file
@@ -221,7 +233,7 @@ class nrpe::debian {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/checks/nrpe_check_mem.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_cpu.cfg":
@@ -229,7 +241,7 @@ class nrpe::debian {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cpu/check_cpu.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   # NRPE Server
@@ -245,12 +257,19 @@ class nrpe::debian {
 
 class nrpe::gpfs {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   # storage disk file, higher thresholds for free space disk check
   file { "/etc/nagios/conf.d/nrpe_gpfs.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/nrpe_gpfs.cfg",
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_mmfsd.cfg":
@@ -258,11 +277,18 @@ class nrpe::gpfs {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/nrpe_mmfsd.cfg",
+    notify  => Service[$nrpe_package],
   }
 
 }
 
 class nrpe::sas2ircu {
+
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
 
   package { "sas2ircu":
     ensure => installed,
@@ -281,7 +307,7 @@ class nrpe::sas2ircu {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/sas2ircu/nrpe_check_sas2ircu.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_sas2ircu":
@@ -302,12 +328,18 @@ class nrpe::sas2ircu {
 
 class nrpe::mysql {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_mysql_connections.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/mysql/nrpe_check_mysql_connections.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_mysql_connections":
@@ -328,12 +360,18 @@ class nrpe::mysql {
 
 class nrpe::drbd {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_drbd.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/drbd/nrpe_check_drbd.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_drbd":
@@ -347,36 +385,54 @@ class nrpe::drbd {
 
 class nrpe::proxmox {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_proxmox.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/proxmox/nrpe_check_proxmox.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
 }
 
 class nrpe::ldap {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_ldap.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/ldap/nrpe_check_ldap.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
 }
 
 class nrpe::cluster {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_usr_local_src.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_usr_local_src.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_usr_local_src.bash":
@@ -391,7 +447,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_devnull.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_devnull.bash":
@@ -406,7 +462,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_torque.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_torque.bash":
@@ -421,7 +477,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_slurm.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_slurm_nodes.cfg":
@@ -429,7 +485,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_slurm_nodes.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_srun.cfg":
@@ -437,7 +493,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_srun.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/sudoers.d/srun":
@@ -459,7 +515,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_scope.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_scope.bash":
@@ -481,7 +537,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_rvitals.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_rvitals.bash":
@@ -496,7 +552,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_motd.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_motd.bash":
@@ -511,7 +567,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_moab.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_moab.bash":
@@ -526,7 +582,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_project_directories.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_quota.cfg":
@@ -534,7 +590,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => ["puppet:///modules/nrpe/cluster/${fqdn}/check_quota.cfg", "puppet:///modules/nrpe/cluster/check_quota.cfg"],
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_sshare.cfg":
@@ -542,7 +598,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_sshare.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/etc/nagios/conf.d/nrpe_check_phi.cfg":
@@ -550,7 +606,7 @@ class nrpe::cluster {
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/cluster/check_phi.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_phi.bash":
@@ -565,12 +621,18 @@ class nrpe::cluster {
 
 class nrpe::named {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_named.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/named/nrpe_named.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
   file { "/usr/local/lib/nagios/plugins/check_bind.sh":
@@ -591,36 +653,54 @@ class nrpe::named {
 
 class nrpe::panasas {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_panasas.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/panasas/nrpe_check_panasas.cfg",
-    notify  => Service[nrpe],
+    notify  => Service[$nrpe_package],
   }
 
 }
 
 class nrpe::gold {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_gold.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/gold/nrpe_check_gold.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
 }
 
 class nrpe::slurmdbd {
 
+  $nrpe_package = $operatingsystem ? {
+    Debian   => "nagios-nrpe-server",
+    CentOS   => "nrpe",
+    RedHat	 => "nrpe",
+  }
+
   file { "/etc/nagios/conf.d/nrpe_check_slurmdbd.cfg":
     owner   => root,
     group   => root,
     mode    => 644,
     source  => "puppet:///modules/nrpe/slurmdbd/nrpe_check_slurmdbd.cfg",
-    notify  => Service[nagios-nrpe-server],
+    notify  => Service[$nrpe_package],
   }
 
 }
